@@ -60,21 +60,30 @@
             loading.classList.remove('hidden');
 
             try {
-                const repoResponse = await fetch(`https://githubrepoanalyzer-production.up.railway.app/github/subham418/repos`);
-                const langResponse = await fetch(`https://githubrepoanalyzer-production.up.railway.app/github/subham418/lang/percentage`);
+                const repoResponse = await fetch(`https://githubrepoanalyzer-production.up.railway.app/github/${username}/repos`);
+                const langResponse = await fetch(`https://githubrepoanalyzer-production.up.railway.app/github/${username}/lang/percentage`);
                 
                 if (!repoResponse.ok || !langResponse.ok) {
-                    throw new Error('Failed to fetch data');
+                    alert("Username might be blocked by github policy or Invalid");
+                    return;
                 }
                 
                 let repoData = await repoResponse.json();
-                const langData = await langResponse.json();
-
+                let langData = await langResponse.json();
+                
+                if (!Array.isArray(repoData) || repoData.length === 0) {
+                    alert("User Not Found! Please enter a valid GitHub username.");
+                    return;
+                }
+                if (Object.keys(langData).length === 0) {
+                    alert("No language data found for this user.");
+                    return;
+                }
+                
                 if (repoData.message === "GitHub API rate limit exceeded" || langData.message === "GitHub API rate limit exceeded") {
                     throw new Error("GitHub API rate limit exceeded");
                 }
                 
-                // Limit to 10 repositories
                 repoData = repoData.slice(0, 10);
                 
                 // Populate table
