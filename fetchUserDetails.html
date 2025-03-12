@@ -60,8 +60,8 @@
             loading.classList.remove('hidden');
 
             try {
-                const repoResponse = await fetch(`http://localhost:8080/github/${username}/repos`);
-                const langResponse = await fetch(`http://localhost:8080/github/${username}/lang/percentage`);
+                const repoResponse = await fetch(`https://githubrepoanalyzer-production.up.railway.app/github/subham418/repos`);
+                const langResponse = await fetch(`https://githubrepoanalyzer-production.up.railway.app/github/subham418/lang/percentage`);
                 
                 if (!repoResponse.ok || !langResponse.ok) {
                     throw new Error('Failed to fetch data');
